@@ -1,0 +1,4 @@
+MOV DH,8CH
+MOV DL, 3  
+
+SHL DH,CL

@@ -1,0 +1,45 @@
+.MODEL SMALL
+.STACK 200H
+.DATA
+
+ TB1 DB 13,10, "NHAP KI TU: $" 
+ ROW DB 13,10, "$"
+ KT DB ?
+.CODE 
+BEGIN:
+ MOV AX,@DATA
+ MOV DS,AX 
+ 
+ NHAP:
+ 
+ LEA DX,TB1
+ MOV AH,9
+ INT 21H
+ 
+ MOV AH,1
+ INT 21H
+ MOV KT, AL 
+ 
+ 
+ LEA DX,ROW
+ MOV AH,9
+ INT 21H
+ 
+ MOV AH,2
+ MOV DL, KT 
+ INT 21H
+ 
+ 
+ 
+ 
+ CMP KT," "
+ JNE NHAP
+ JE END
+ 
+ 
+ END:
+ MOV AX,4C00H
+ INT 21H
+
+
+END BEGIN

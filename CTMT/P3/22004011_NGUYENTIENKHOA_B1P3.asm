@@ -1,0 +1,13 @@
+.MODEL SMALL
+.STACK 100H  
+.DATA
+.CODE
+BEGIN:
+MOV CX,10
+L1:
+    MOV DL,"*"
+    MOV AH,2H
+    INT 21H
+    
+ LOOP L1  
+END BEGIN
