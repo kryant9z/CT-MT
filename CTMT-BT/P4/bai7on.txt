@@ -1,0 +1,32 @@
+.model small
+.stack 100h
+.data
+m db 'TH*C G*S* AR*b*ATST$'
+.code
+main proc
+    mov ax,@data
+    mov ds,ax
+    mov cx,19
+    lea si,m
+    mov bl,0
+    lap:
+        cmp [si],'*'
+        je bang
+       
+        jmp xuat
+        bang:
+            mov [si],'E'
+        xuat:
+            inc si
+            loop lap
+       mov cx,19
+    lea si,m
+    
+    xuatc:
+    mov ah,09h
+    lea dx,m
+    int 21h
+    mov ah,4ch
+    int 21h
+    main endp
+end main

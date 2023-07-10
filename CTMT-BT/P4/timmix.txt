@@ -1,0 +1,48 @@
+;Tim so nho nhat                                                          
+ .model small
+.stack 100h
+.data
+    list DB 8,2,3,1,5,3,7,8
+    dem dw ?  
+    row db 13,10, '$' 
+
+.code
+main proc
+    mov ax, @Data
+    mov ds, ax
+    mov cx, 7
+    mov bx,0
+    
+    lea si, list
+    mov al, [si]
+
+Start: 
+    inc bx
+    cmp [si + bx],al
+    jae BYPASS
+    mov al, [si +bx] 
+    mov dem,bx
+    
+    
+BYPASS:
+    loop Start
+
+    mov ah, 2
+    mov dl,al
+    add dl,48
+    int 21h 
+    
+    mov ah,9
+    lea dx,row
+    int 21h
+    
+    add dem,'0'
+    mov dx,dem
+    mov ah,2
+    
+    int 21h
+
+    mov ah, 4Ch
+    int 21h
+main endp
+end main

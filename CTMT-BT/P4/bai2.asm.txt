@@ -1,0 +1,93 @@
+.model small
+.stack 100h
+
+.data
+    num1 db ?
+    num2 db ?
+    hoa db 'Hoa $'
+    kq1 db 'num1 thang $'
+    kq2 db 'num2 thang $' 
+    tb db 10,13,'Ket qua cuoc chien: $'
+    tb1 db 10,13,'Nhap tuyet chieu num1 $'
+    tb2 db 10,13,'Nhap tuyet chieu num2 $'
+.code
+    mov ax, @data
+    mov ds, ax
+    
+    mov ah,09h
+    lea dx,tb1
+    int 21h
+    ; lua chon mem1
+    mov ah, 01h
+    int 21h
+    mov num1, al
+    
+    mov ah, 09h
+    lea dx,tb2
+    int 21h
+    ; lua chon mem2
+    mov ah, 01h
+    int 21h
+    mov num2, al
+
+    ;so sanh cac lua chon 
+    mov al,num1
+    cmp al,num2
+    je kqhoa
+    cmp num1, '1'
+    je kqkeo
+    cmp num1, '2'
+    je kqbao
+    cmp num1, '3'
+    je kqbua
+
+kqhoa:
+    ;truong hop hoa
+    mov ah, 09h
+    lea dx, hoa
+    int 21h
+    jmp exit
+
+kqkeo:
+    ; Truong hop nguoi choi 1 chon keo
+    cmp num2, '2'
+    je thang
+    jmp thua
+
+kqbao:
+    ; truong hop nguoi choi 1 chon bao
+    cmp num2, '3'
+    je thang
+    jmp thua
+
+kqbua:
+    ; truong hop nguoi choi 1 chon bua
+    cmp num2, '1'
+    je thang
+    jmp thua
+
+thang: 
+    mov ah,09h
+    lea dx,tb
+    int 21h
+    ; truong hop nguoi choi 1 thang
+    mov ah, 09h
+    lea dx, kq1
+    int 21h
+    jmp exit
+
+thua:
+    mov ah,09h
+    lea dx,tb
+    int 21h
+    ; truong hop nguoi choi 1 thua
+    mov ah, 09h
+    lea dx, kq2
+    int 21h
+    jmp exit
+
+exit:
+    mov ah, 4Ch
+    int 21h
+
+end

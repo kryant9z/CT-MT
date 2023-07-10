@@ -1,0 +1,72 @@
+.model small
+.stack 100h
+.data 
+x dw ?
+y dw ?
+row db 13,10,'$'
+.code
+main proc
+    mov ax,@data
+    mov ds,ax
+    call nhap
+    call endl
+    call xuat
+    
+    mov ah,4ch
+    int 21h
+    main endp
+nhap proc
+    mov x,0
+    mov y,0
+    mov bx,10
+    lap:
+        mov ah,01h
+        int 21h
+        cmp al,13
+        je break
+        sub al,'0'
+        mov ah,0
+        mov y,ax
+        mov ax,x
+        mul bx
+        add ax,y
+        mov x,ax
+        jmp lap
+        break:
+        mov ax,x
+        ret
+nhap endp
+xuat proc
+    mov cx,0
+    mov bx,16
+    lap2:
+        mov dx,0
+        div bx
+        push dx
+        inc cx
+        cmp ax,0
+        jg lap2
+    ht:
+        pop dx
+        add dl,'0'
+        cmp dl,'9'
+        jle tt
+        add dl,7
+        
+        tt:
+        mov ah,02h
+        int 21h
+        loop ht
+        ret
+xuat endp
+endl proc
+    push dx
+    push ax
+    mov ah,09h
+    lea dx,row
+    int 21h
+    pop ax
+    pop dx
+    ret
+    endl endp
+end main
